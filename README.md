@@ -7,7 +7,7 @@ A Master password is used as a key to encrypt all passwords.Encrypts all passwor
 
 Master password is never stored on database, using SHA hashing is used to validate Master password.
 
-###Download Android App: [here](https://github.com/saurabh-m-w/PasswordManager/raw/main/KeepSafeApp.apk)
+### Download Android App: [here](https://github.com/saurabh-m-w/PasswordManager/raw/main/KeepSafeApp.apk)
 
 
 
