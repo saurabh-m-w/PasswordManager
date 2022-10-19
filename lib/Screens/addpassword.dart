@@ -13,7 +13,6 @@ import 'package:password_strength/password_strength.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-
 class AddPassword extends StatefulWidget {
   AddPassword({Key key}) : super(key: key);
 
@@ -173,7 +172,7 @@ class _AddPasswordState extends State<AddPassword> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     Color primaryColor = Theme.of(context).primaryColor;
-    final userauth=Provider.of<UserProvider>(context);
+    final userauth = Provider.of<UserProvider>(context);
 
     return Scaffold(
       key: scaffoldKey,
@@ -257,7 +256,7 @@ class _AddPasswordState extends State<AddPassword> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        FlatButton(
+                        ElevatedButton(
                           onPressed: () {
                             String pass = randomAlphaNumeric(10);
                             passwordController.text = pass;
@@ -265,7 +264,7 @@ class _AddPasswordState extends State<AddPassword> {
                           },
                           child: Text('Generate'),
                         ),
-                        FlatButton(
+                        ElevatedButton(
                           onPressed: () {
                             setState(() {
                               obscureText = !obscureText;
@@ -278,11 +277,11 @@ class _AddPasswordState extends State<AddPassword> {
                           },
                           child: Text(show_hide),
                         ),
-                        FlatButton(
+                        ElevatedButton(
                           onPressed: () {
                             Clipboard.setData(new ClipboardData(
                                 text: passwordController.text));
-                            scaffoldKey.currentState.showSnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text("Copied to Clipboard"),
                                 duration: Duration(seconds: 2),
@@ -307,7 +306,7 @@ class _AddPasswordState extends State<AddPassword> {
                             width: passwordStrength == 0
                                 ? 5
                                 : MediaQuery.of(context).size.width *
-                                passwordStrength,
+                                    passwordStrength,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: passwordStrengthBarColor,
@@ -319,7 +318,7 @@ class _AddPasswordState extends State<AddPassword> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                        const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -421,31 +420,29 @@ class _AddPasswordState extends State<AddPassword> {
         onPressed: () async {
           if (_formKey.currentState.validate()) {
             encryptPass(passwordController.text);
-            Map<String,String> pass={
-              "id":userauth.uid,
-              "username":userNameController.text,
+            Map<String, String> pass = {
+              "id": userauth.uid,
+              "username": userNameController.text,
               "appname": appNameController.text,
               "icon": iconNames[pickedIcon],
               "color": "#" + pickedColor.value.toRadixString(16),
               "encryptedpass": encryptedString
             };
             showLoaderDialog(context);
-           bool isstored=await storepassword(pass,userauth.token);
-           Navigator.pop(context);
-           if(isstored)
-             {
-               Fluttertoast.showToast(
-                   msg: "Password stored successfully",
-                   toastLength: Toast.LENGTH_SHORT,
-                   gravity: ToastGravity.CENTER,
-                   timeInSecForIosWeb: 1,
-                   backgroundColor: Colors.green,
-                   textColor: Colors.white,
-                   fontSize: 16.0
-               );
+            bool isstored = await storepassword(pass, userauth.token);
+            Navigator.pop(context);
+            if (isstored) {
+              Fluttertoast.showToast(
+                  msg: "Password stored successfully",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
 
-               Navigator.pop(context);
-             }
+              Navigator.pop(context);
+            }
             // DBProvider.db.newPassword(password);
             // Navigator.pushAndRemoveUntil(
             //     context,
@@ -470,11 +467,11 @@ class _AddPasswordState extends State<AddPassword> {
           contentPadding: const EdgeInsets.all(6.0),
           title: Text("Color picker"),
           actions: [
-            FlatButton(
+            ElevatedButton(
               child: Text('CANCEL'),
               onPressed: Navigator.of(context).pop,
             ),
-            FlatButton(
+            ElevatedButton(
               child: Text('SUBMIT'),
               onPressed: () {
                 Navigator.of(context).pop();

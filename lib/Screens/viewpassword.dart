@@ -61,7 +61,7 @@ class _ViewPasswordState extends State<ViewPassword> {
   //       localizedReason: 'Please authenticate to view password',
   //       stickyAuth: true);
   // }
-  String masterpass="";
+  String masterpass = "";
   Future<void> getMasterPass() async {
     final storage = new FlutterSecureStorage();
     masterpass = await storage.read(key: 'masterpass') ?? '';
@@ -125,7 +125,10 @@ class _ViewPasswordState extends State<ViewPassword> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Username",
-                    style: TextStyle(fontFamily: 'Title', fontSize: 23,fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Title',
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
@@ -150,7 +153,10 @@ class _ViewPasswordState extends State<ViewPassword> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "Password",
-                            style: TextStyle(fontFamily: 'Title', fontSize: 23,fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontFamily: 'Title',
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                         Padding(
@@ -166,44 +172,46 @@ class _ViewPasswordState extends State<ViewPassword> {
                         ),
                       ],
                     ),
-
                   ],
                 ),
                 Center(
-                  child: RaisedButton.icon(
-                    color: color,
-                      onPressed:(){
-                        if (!decrypt) {
-                              decryptPass(password.password, masterpass);
-                        }
-                        else if(decrypt)
-                          {
+                    child: ElevatedButton.icon(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(color),
+                        ),
+                        onPressed: () {
+                          if (!decrypt) {
+                            decryptPass(password.password, masterpass);
+                          } else if (decrypt) {
                             setState(() {
-                              decrypt=!decrypt;
+                              decrypt = !decrypt;
                             });
                           }
-                      },
-                      icon: decrypt ? Icon(Icons.lock_open) : Icon(Icons.lock),
-                      label: decrypt? Text('Hide Password'):Text("Show Password")
-                )
-                  // IconButton(
-                  //   alignment: Alignment.center,
-                  //   onPressed: () async {
-                  //     // if (!decrypt && !didAuthenticate) {
-                  //     //   buildShowDialogBox(context);
-                  //     // } else
-                  //     if (!decrypt) {
-                  //       decryptPass(password.password, masterpass);
-                  //     }
-                  //     //   else if (decrypt) {
-                  //     //   setState(() {
-                  //     //     decrypt = !decrypt;
-                  //     //   });
-                  //     // }
-                  //   },
-                  //   icon: decrypt ? Icon(Icons.lock_open) : Icon(Icons.lock),
-                  // ),
-                )
+                        },
+                        icon:
+                            decrypt ? Icon(Icons.lock_open) : Icon(Icons.lock),
+                        label: decrypt
+                            ? Text('Hide Password')
+                            : Text("Show Password"))
+                    // IconButton(
+                    //   alignment: Alignment.center,
+                    //   onPressed: () async {
+                    //     // if (!decrypt && !didAuthenticate) {
+                    //     //   buildShowDialogBox(context);
+                    //     // } else
+                    //     if (!decrypt) {
+                    //       decryptPass(password.password, masterpass);
+                    //     }
+                    //     //   else if (decrypt) {
+                    //     //   setState(() {
+                    //     //     decrypt = !decrypt;
+                    //     //   });
+                    //     // }
+                    //   },
+                    //   icon: decrypt ? Icon(Icons.lock_open) : Icon(Icons.lock),
+                    // ),
+                    )
               ],
             ),
           ),
@@ -241,7 +249,7 @@ class _ViewPasswordState extends State<ViewPassword> {
             ],
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 decryptPass(
@@ -254,7 +262,7 @@ class _ViewPasswordState extends State<ViewPassword> {
                       style: TextStyle(fontFamily: "Subtitle"),
                     ),
                   );
-                  scaffoldKey.currentState.showSnackBar(snackBar);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
               },
               child: Text("DONE"),
