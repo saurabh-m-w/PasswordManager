@@ -19,9 +19,7 @@ class getMasterPass extends StatefulWidget {
 class _getMasterPassState extends State<getMasterPass> {
   TextEditingController masterPassController = TextEditingController();
 
-
-  String hashpass(String pass)
-  {
+  String hashpass(String pass) {
     var bytes = utf8.encode(pass); // data being hashed
     var digest = sha1.convert(bytes);
 
@@ -30,7 +28,7 @@ class _getMasterPassState extends State<getMasterPass> {
     return digest.toString();
   }
 
-  saveMasterPass(String masterPass) async{
+  saveMasterPass(String masterPass) async {
     final storage = new FlutterSecureStorage();
 
     await storage.write(key: 'masterpass', value: masterPass);
@@ -58,7 +56,7 @@ class _getMasterPassState extends State<getMasterPass> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     Color primaryColor = Theme.of(context).primaryColor;
-    final userauth=Provider.of<UserProvider>(context);
+    final userauth = Provider.of<UserProvider>(context);
 
     return Scaffold(
       body: Column(
@@ -73,18 +71,18 @@ class _getMasterPassState extends State<getMasterPass> {
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 32,
-                        color: primaryColor
-                    ))),
+                        color: primaryColor))),
           ),
           SvgPicture.asset(
             "assets/icons/vault.svg",
             height: size.height * 0.25,
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(
-                  "Enter Your Master Password.",
+              child: Text("Enter Your Master Password.",
                   style: TextStyle(
                       fontSize: 16,
                       // color: Colors.black54,
@@ -121,18 +119,17 @@ class _getMasterPassState extends State<getMasterPass> {
                   ),
                   onPressed: () async {
                     if (masterPassController.text.isNotEmpty) {
-                      String hasedpass =  hashpass(masterPassController.text.trim());
+                      String hasedpass =
+                          hashpass(masterPassController.text.trim());
 
-
-                      Map<String,String> body={
-                        "id":userauth.uid,
-                        "hashmaster":hasedpass
+                      Map<String, String> body = {
+                        "id": userauth.uid,
+                        "hashmaster": hasedpass
                       };
                       showLoaderDialog(context);
-                      bool isset=await checkmasterpass(body);
+                      bool isset = await checkmasterpass(body);
                       Navigator.pop(context);
-                      if(isset)
-                      {
+                      if (isset) {
                         saveMasterPass(masterPassController.text.trim());
                         Fluttertoast.showToast(
                             msg: "Password Matched",
@@ -141,16 +138,12 @@ class _getMasterPassState extends State<getMasterPass> {
                             timeInSecForIosWeb: 1,
                             backgroundColor: Colors.green,
                             textColor: Colors.white,
-                            fontSize: 16.0
-                        );
+                            fontSize: 16.0);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    home()));
-                      }
-                      else
-                      {
+                                builder: (BuildContext context) => home()));
+                      } else {
                         Fluttertoast.showToast(
                             msg: "Incorrect Password",
                             toastLength: Toast.LENGTH_SHORT,
@@ -158,10 +151,8 @@ class _getMasterPassState extends State<getMasterPass> {
                             timeInSecForIosWeb: 1,
                             backgroundColor: Colors.red,
                             textColor: Colors.white,
-                            fontSize: 16.0
-                        );
+                            fontSize: 16.0);
                       }
-
                     } else {
                       showDialog(
                           context: context,
@@ -176,7 +167,7 @@ class _getMasterPassState extends State<getMasterPass> {
                                 style: TextStyle(fontFamily: "Subtitle"),
                               ),
                               actions: <Widget>[
-                                FlatButton(
+                                ElevatedButton(
                                   child: Text("CLOSE"),
                                   onPressed: () {
                                     Navigator.of(context).pop();
