@@ -11,9 +11,9 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // This size provide us total height and width of our screen
-    return Container( 
+    return Container(
       padding: EdgeInsets.all(10),
-      width: size.width>500?500:size.width,
+      width: size.width > 500 ? 500 : size.width,
       child: Background(
         child: SingleChildScrollView(
           child: Column(
@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
             children: <Widget>[
               Text(
                 "WELCOME TO KeepSafe",
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               SizedBox(height: size.height * 0.05),
               SvgPicture.asset(
@@ -31,6 +31,8 @@ class Body extends StatelessWidget {
               SizedBox(height: size.height * 0.05),
               RoundedButton(
                 text: "LOGIN",
+                color: kPrimaryLightColor,
+                textColor: Colors.black,
                 press: () {
                   Navigator.push(
                     context,

@@ -19,15 +19,12 @@ class _SetMasterPasswordState extends State<SetMasterPassword> {
   TextEditingController masterPassController = TextEditingController();
 
   Future<Null> getMasterPass() async {
-
     final storage = new FlutterSecureStorage();
     String masterPass = await storage.read(key: 'masterpass') ?? '';
     masterPassController.text = masterPass;
-
   }
 
-  String hashpass(String pass)
-  {
+  String hashpass(String pass) {
     var bytes = utf8.encode(pass); // data being hashed
     var digest = sha1.convert(bytes);
 
@@ -36,7 +33,7 @@ class _SetMasterPasswordState extends State<SetMasterPassword> {
     return digest.toString();
   }
 
-  saveMasterPass(String masterPass) async{
+  saveMasterPass(String masterPass) async {
     final storage = new FlutterSecureStorage();
 
     await storage.write(key: 'masterpass', value: masterPass);
@@ -66,7 +63,7 @@ class _SetMasterPasswordState extends State<SetMasterPassword> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     Color primaryColor = Theme.of(context).primaryColor;
-    final userauth=Provider.of<UserProvider>(context);
+    final userauth = Provider.of<UserProvider>(context);
 
     return Scaffold(
       body: Column(
@@ -81,8 +78,7 @@ class _SetMasterPasswordState extends State<SetMasterPassword> {
                     style: TextStyle(
                         fontFamily: "Title",
                         fontSize: 32,
-                        color: primaryColor
-                    ))),
+                        color: primaryColor))),
           ),
           Padding(
               padding: const EdgeInsets.all(16.0),
@@ -124,47 +120,41 @@ class _SetMasterPasswordState extends State<SetMasterPassword> {
                   ),
                   onPressed: () async {
                     if (masterPassController.text.isNotEmpty) {
-                          String hasedpass =  hashpass(masterPassController.text.trim());
-                          saveMasterPass(masterPassController.text.trim());
+                      String hasedpass =
+                          hashpass(masterPassController.text.trim());
+                      saveMasterPass(masterPassController.text.trim());
 
-                          Map<String,String> body={
-                            "id":userauth.uid,
-                            "hashmaster":hasedpass
-                          };
-                          showLoaderDialog(context);
-                          bool isset=await setmasterpass(body);
-                          Navigator.pop(context);
+                      Map<String, String> body = {
+                        "id": userauth.uid,
+                        "hashmaster": hasedpass
+                      };
+                      showLoaderDialog(context);
+                      bool isset = await setmasterpass(body);
+                      Navigator.pop(context);
 
-                          if(isset)
-                            {
-                              Fluttertoast.showToast(
-                                  msg: "Master password has set successfully ",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.green,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0
-                              );
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          home()));
-                            }
-                          else
-                            {
-                              Fluttertoast.showToast(
-                                  msg: "Something went wrong",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0
-                              );
-                            }
-
+                      if (isset) {
+                        Fluttertoast.showToast(
+                            msg: "Master password has set successfully ",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => home()));
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Something went wrong",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
                     } else {
                       showDialog(
                           context: context,
@@ -179,7 +169,7 @@ class _SetMasterPasswordState extends State<SetMasterPassword> {
                                 style: TextStyle(fontFamily: "Subtitle"),
                               ),
                               actions: <Widget>[
-                                FlatButton(
+                                ElevatedButton(
                                   child: Text("CLOSE"),
                                   onPressed: () {
                                     Navigator.of(context).pop();
